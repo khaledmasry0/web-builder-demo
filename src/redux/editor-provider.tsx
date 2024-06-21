@@ -306,6 +306,8 @@ const editorReducer = (
       return state;
 
     case "LOAD_DATA":
+      console.log("action.payload", action.payload || "no payload");
+
       return {
         ...initialState,
         editor: {
