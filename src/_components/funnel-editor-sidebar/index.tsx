@@ -22,7 +22,8 @@ type Props = {
 
 const FunnelEditorSidebar = ({ subaccountId }: Props) => {
   const { state, dispatch } = useEditor();
-
+  // console.log(state);
+  
   return (
     <Sheet open={true} modal={false}>
       <Tabs className="w-full " defaultValue="Settings">
@@ -58,6 +59,7 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
             <TabsContent value="Media">
               <MediaBucketTab subaccountId={subaccountId} />
             </TabsContent>
+            {/* ====  add section here ===== */}
             <TabsContent value="Components">
               <SheetHeader className="text-left p-6 ">
                 <SheetTitle>Components</SheetTitle>

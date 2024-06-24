@@ -30,7 +30,7 @@ function App() {
   };
 
   const savedData: any = JSON.parse(localStorage.getItem("funnelData"));
-  console.log(savedData);
+  // console.log(savedData);
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 z-[20] bg-background overflow-hidden">

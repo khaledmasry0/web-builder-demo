@@ -252,6 +252,8 @@ const editorReducer = (
       return changedDeviceState;
 
     case "TOGGLE_PREVIEW_MODE":
+      // console.log('TOGGLE_PREVIEW_MODE' , state);
+      
       const toggleState = {
         ...state,
         editor: {
@@ -375,7 +377,8 @@ type EditorProps = {
 
 const EditorProvider = (props: EditorProps) => {
   const [state, dispatch] = useReducer(editorReducer, initialState);
-
+  // console.log(state);
+  
   return (
     <EditorContext.Provider
       value={{

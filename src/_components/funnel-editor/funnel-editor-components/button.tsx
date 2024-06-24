@@ -10,7 +10,7 @@ type Props = {
   element: EditorElement;
 };
 
-const TextComponent = (props: Props) => {
+const ButtonComponent = (props: Props) => {
   const { dispatch, state } = useEditor();
 
   const handleDeleteElement = () => {
@@ -53,26 +53,27 @@ const TextComponent = (props: Props) => {
             {state.editor.selectedElement.name}
           </Badge>
         )}
-      <span
-        contentEditable={!state.editor.liveMode}
-        onBlur={(e) => {
-          const spanElement = e.target as HTMLSpanElement;
-          dispatch({
-            type: "UPDATE_ELEMENT",
-            payload: {
-              elementDetails: {
-                ...props.element,
-                content: {
-                  innerText: spanElement.innerText,
+      <button type="button"
+          contentEditable={!state.editor.liveMode}
+          onBlur={(e) => {
+            const spanElement = e.target as HTMLSpanElement;
+            dispatch({
+              type: "UPDATE_ELEMENT",
+              payload: {
+                elementDetails: {
+                  ...props.element,
+                  content: {
+                    innerText: spanElement.innerText,
+                  },
                 },
               },
-            },
-          });
-        }}
-      >
-        {!Array.isArray(props.element.content) &&
-          props.element.content.innerText}
-      </span>
+            });
+          }}
+        >
+          {!Array.isArray(props.element.content) &&
+            props.element.content.innerText}
+      </button>
+
       {state.editor.selectedElement.id === props.element.id &&
         !state.editor.liveMode && (
           <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
@@ -87,4 +88,4 @@ const TextComponent = (props: Props) => {
   );
 };
 
-export default TextComponent;
+export default ButtonComponent;

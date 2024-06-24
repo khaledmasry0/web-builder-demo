@@ -20,6 +20,7 @@ import clsx from "clsx";
 import {
   ArrowLeftCircle,
   EyeIcon,
+  Code,
   Laptop,
   Redo2,
   Smartphone,
@@ -28,9 +29,13 @@ import {
 } from "lucide-react";
 // import Link from 'next/link'
 // import { useRouter } from 'next/navigation'
-import React, { FocusEventHandler, useEffect } from "react";
+import React, { FocusEventHandler, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { DeviceTypes, useEditor } from "../redux/editor-provider";
+import {
+  DeviceTypes,
+  EditorElement,
+  useEditor,
+} from "../redux/editor-provider";
 // import { useNavigation } from "react-router";
 // import { Link } from "react-router-dom";
 
@@ -47,6 +52,7 @@ const FunnelEditorNavigation = ({
 }: Props) => {
   // const router = useNavigation();
   const { state, dispatch } = useEditor();
+  // console.log("=== stateaaaaa ===" , state);
 
   // useEffect(() => {
   //   dispatch({
@@ -101,6 +107,37 @@ const FunnelEditorNavigation = ({
     console.log(content);
     localStorage.setItem("funnelData", JSON.stringify(state.editor));
   };
+  const [openCode, setOpenCode] = useState(false);
+  // console.log(openCode);
+
+  const handleShowCode = () => {
+    setOpenCode((prev) => !prev);
+  };
+  // console.log("=== state.editor.elements ===" , state.editor.elements);
+  function ABC(elements) {
+    const elementsConvertCode = elements.map((ele) => {
+      if (!ele.content || ele.content.length === 0) return null;
+      if (Array.isArray(ele.content)) {
+        console.log("ahmed");
+        console.log("== ---- ele.content ----- ==", ele.content);
+
+        return ele.content.map((eleCon, index) => {
+          if (eleCon.type === "text") {
+            return `<span>${eleCon.content.innerText}</span>`;
+          }
+          if (eleCon.type === "button") {
+            return `<button>${eleCon.content.innerText}</button>`;
+          }
+          if (eleCon.type === "container") {
+            // console.log("== ---- ele.content ----- ==", ele.content);
+            return `<section id=${index}>${ABC(ele.content)}</section>`;
+          }
+        });
+      }
+    });
+    return elementsConvertCode;
+  }
+  const renderABC = ABC(state.editor.elements);
 
   return (
     <TooltipProvider>
@@ -114,7 +151,7 @@ const FunnelEditorNavigation = ({
           <a href={`/subaccount/${subaccountId}/funnels/${funnelId}`}>
             <ArrowLeftCircle />
           </a>
-          <div className="flex flex-col w-full ">
+          {/* <div className="flex flex-col w-full ">
             <Input
               defaultValue={funnelPageDetails.name}
               className="border-none h-5 m-0 p-0 text-lg"
@@ -123,12 +160,13 @@ const FunnelEditorNavigation = ({
             <span className="text-sm text-muted-foreground">
               Path: /{funnelPageDetails.pathName}
             </span>
-          </div>
+          </div> */}
         </aside>
+        {/* Responsive Icon */}
         <aside>
           <Tabs
             defaultValue="Desktop"
-            className="w-fit "
+            className="w-fit"
             value={state.editor.device}
             onValueChange={(value) => {
               dispatch({
@@ -137,12 +175,12 @@ const FunnelEditorNavigation = ({
               });
             }}
           >
-            <TabsList className="grid w-full grid-cols-3 bg-transparent h-fit">
+            <TabsList className="grid w-full gap-3 grid-cols-3 bg-transparent h-fit">
               <Tooltip>
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Desktop"
-                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                    className={`toolTip data-[state=active]:bg-[#3f67ad] data-[state=active]:text-[white] w-10 h-10 p-0`}
                   >
                     <Laptop />
                   </TabsTrigger>
@@ -155,7 +193,7 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Tablet"
-                    className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                    className={`toolTip w-10 h-10 p-0 data-[state=active]:bg-[#3f67ad] data-[state=active]:text-[white]`}
                   >
                     <Tablet />
                   </TabsTrigger>
@@ -168,7 +206,7 @@ const FunnelEditorNavigation = ({
                 <TooltipTrigger>
                   <TabsTrigger
                     value="Mobile"
-                    className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                    className={`toolTip w-10 h-10 p-0 data-[state=active]:bg-[#3f67ad] data-[state=active]:text-[white]`}
                   >
                     <Smartphone />
                   </TabsTrigger>
@@ -180,11 +218,29 @@ const FunnelEditorNavigation = ({
             </TabsList>
           </Tabs>
         </aside>
-        <aside className="flex items-center gap-2">
+        <aside className="flex items-center gap-4">
           <Button
             variant={"ghost"}
             size={"icon"}
-            className="hover:bg-slate-800"
+            className="hover:bg-[#3f67ad] hover:text-[white]"
+            onClick={handleShowCode}
+          >
+            <Code />
+          </Button>
+          <div
+            className={`${
+              openCode ? "block" : "hidden"
+            } absolute top-40 right-[500px] w-[400px] h-[400px] bg-slate-700 z-50 text-[white]`}
+          >
+            {
+              // elementsConvertCode
+              ABC(state.editor.elements)
+            }
+          </div>
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            className="hover:bg-[#3f67ad] hover:text-[white]"
             onClick={handlePreviewClick}
           >
             <EyeIcon />
@@ -194,7 +250,11 @@ const FunnelEditorNavigation = ({
             onClick={handleUndo}
             variant={"ghost"}
             size={"icon"}
-            className="hover:bg-slate-800"
+            className={`${
+              !(state.history.currentIndex > 0)
+                ? " "
+                : "bg-[#3f67ad] text-[white]"
+            } hover:bg-[#3f67ad] hover:text-[white]`}
           >
             <Undo2 />
           </Button>
@@ -205,11 +265,15 @@ const FunnelEditorNavigation = ({
             onClick={handleRedo}
             variant={"ghost"}
             size={"icon"}
-            className="hover:bg-slate-800 mr-4"
+            className={`${
+              !(state.history.currentIndex < state.history.history.length - 1)
+                ? " "
+                : "bg-[#3f67ad] text-[white]"
+            } hover:bg-[#3f67ad] hover:text-[white] mr-4`}
           >
             <Redo2 />
           </Button>
-          <div className="flex flex-col item-center mr-4">
+          {/* <div className="flex flex-col item-center mr-4">
             <div className="flex flex-row items-center gap-4">
               Draft
               <Switch disabled defaultChecked={true} />
@@ -218,8 +282,13 @@ const FunnelEditorNavigation = ({
             <span className="text-muted-foreground text-sm">
               Last updated {"lol"}
             </span>
-          </div>
-          <Button onClick={handleOnSave}>Save</Button>
+          </div> */}
+          <Button
+            className={`bg-[#3f67ad] text-[white] text-[15px]`}
+            onClick={handleOnSave}
+          >
+            Save
+          </Button>
         </aside>
       </nav>
     </TooltipProvider>

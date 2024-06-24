@@ -216,6 +216,7 @@ export type EditorBtns =
   | 'contactForm'
   | 'paymentForm'
   | 'link'
+  | 'button'
   | '2Col'
   | 'video'
   | '__body'
@@ -229,4 +230,5 @@ export const defaultStyles: React.CSSProperties = {
   backgroundRepeat: 'no-repeat',
   textAlign: 'left',
   opacity: '100%',
+  
 }

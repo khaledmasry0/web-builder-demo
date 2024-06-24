@@ -8,11 +8,12 @@ import { EditorBtns } from "../../../../lib/constants";
 import React from "react";
 import TextPlaceholder from "./text-placeholder";
 import ContainerPlaceholder from "./container-placeholder";
-import VideoPlaceholder from "./video-placeholder";
+// import VideoPlaceholder from "./video-placeholder";
 import TwoColumnsPlaceholder from "./two-columns-placeholder";
 import LinkPlaceholder from "./link-placeholder";
 import ContactFormComponentPlaceholder from "./contact-form-placeholder";
-import CheckoutPlaceholder from "./checkout-placeholder";
+// import CheckoutPlaceholder from "./checkout-placeholder";
+import ButtonPlaceholder from "./button-placeholder";
 
 type Props = {};
 
@@ -30,6 +31,12 @@ const ComponentsTab = (props: Props) => {
       group: "elements",
     },
     {
+      Component: <ButtonPlaceholder />,
+      label: "Button",
+      id: "button",
+      group: "elements",
+    },
+    {
       Component: <ContainerPlaceholder />,
       label: "Container",
       id: "container",
@@ -41,24 +48,24 @@ const ComponentsTab = (props: Props) => {
       id: "2Col",
       group: "layout",
     },
-    {
-      Component: <VideoPlaceholder />,
-      label: "Video",
-      id: "video",
-      group: "elements",
-    },
+    // {
+    //   Component: <VideoPlaceholder />,
+    //   label: "Video",
+    //   id: "video",
+    //   group: "elements",
+    // },
     {
       Component: <ContactFormComponentPlaceholder />,
       label: "Contact",
       id: "contactForm",
       group: "elements",
     },
-    {
-      Component: <CheckoutPlaceholder />,
-      label: "Checkout",
-      id: "paymentForm",
-      group: "elements",
-    },
+    // {
+    //   Component: <CheckoutPlaceholder />,
+    //   label: "Checkout",
+    //   id: "paymentForm",
+    //   group: "elements",
+    // },
     {
       Component: <LinkPlaceholder />,
       label: "Link",

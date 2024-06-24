@@ -38,6 +38,29 @@ const Container = ({ element }: Props) => {
           },
         });
         break;
+      case "button":
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: { innerText: "Button"  },
+              id: v4(),
+              name: "Button",
+              styles: {
+                color: "black",
+                border : "1px solid #00000096",
+                width : "fit-content",
+                background : "#ccc",
+                padding : "0px 5px",
+                borderRadius: "3px"
+                
+              },
+              type: "button",
+            },
+          },
+        });
+        break;
       case "link":
         dispatch({
           type: "ADD_ELEMENT",
@@ -59,7 +82,7 @@ const Container = ({ element }: Props) => {
           },
         });
         break;
-      case "video":
+      // case "video":
         dispatch({
           type: "ADD_ELEMENT",
           payload: {

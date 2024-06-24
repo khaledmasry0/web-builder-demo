@@ -12,7 +12,8 @@ type Props = { funnelPageId: string; liveMode?: boolean };
 
 const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
   const { dispatch, state } = useEditor();
-
+  // console.log("=== state ===" , state);
+  
   useEffect(() => {
     if (liveMode) {
       dispatch({
@@ -49,10 +50,12 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
     dispatch({ type: "TOGGLE_PREVIEW_MODE" });
     dispatch({ type: "TOGGLE_LIVE_MODE" });
   };
+  console.log("===== state ===",state.editor.elements);
+  
   return (
     <div
       className={clsx(
-        "use-automation-zoom-in h-full overflow-scroll mr-[385px] bg-background transition-all rounded-md",
+        "use-automation-zoom-in h-full overflow-y-hidden mr-[385px] bg-background transition-all rounded-md",
         {
           "!p-0 !mr-0":
             state.editor.previewMode === true || state.editor.liveMode === true,
@@ -73,8 +76,11 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
           <EyeOff />
         </Button>
       )}
+      {/* ========== */}
       {Array.isArray(state.editor.elements) &&
         state.editor.elements.map((childElement) => (
+          // console.log(childElement)
+          
           <Recursive key={childElement.id} element={childElement} />
         ))}
     </div>
