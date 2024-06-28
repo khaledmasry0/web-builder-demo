@@ -38,6 +38,11 @@ import {
 } from "../redux/editor-provider";
 // import { useNavigation } from "react-router";
 // import { Link } from "react-router-dom";
+// import grapesjs from 'grapesjs';
+// import "grapesjs/dist/css/grapes.min.css";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import beautify from "js-beautify";
 
 type Props = {
   funnelId: string;
@@ -52,6 +57,7 @@ const FunnelEditorNavigation = ({
 }: Props) => {
   // const router = useNavigation();
   const { state, dispatch } = useEditor();
+  const [codePreview, setCodePreview] = useState("");
   // console.log("=== stateaaaaa ===" , state);
 
   // useEffect(() => {
@@ -111,33 +117,51 @@ const FunnelEditorNavigation = ({
   // console.log(openCode);
 
   const handleShowCode = () => {
-    setOpenCode((prev) => !prev);
+    handleOpenCodePreview();
+    setOpenCode((prev) => true);
+  };
+  const handleCloseCode = () => {
+    setCodePreview("");
+    setOpenCode((prev) => false);
   };
   // console.log("=== state.editor.elements ===" , state.editor.elements);
-  function ABC(elements) {
-    const elementsConvertCode = elements.map((ele) => {
-      if (!ele.content || ele.content.length === 0) return null;
-      if (Array.isArray(ele.content)) {
-        console.log("ahmed");
-        console.log("== ---- ele.content ----- ==", ele.content);
+  function handleOpenCodePreview() {
+    const renderABC = generateCode(state.editor.elements);
+    const formattedCode = beautify.html(renderABC, { indent_size: 2 });
+    console.log(state.editor.elements);
 
-        return ele.content.map((eleCon, index) => {
-          if (eleCon.type === "text") {
-            return `<span>${eleCon.content.innerText}</span>`;
-          }
-          if (eleCon.type === "button") {
-            return `<button>${eleCon.content.innerText}</button>`;
-          }
-          if (eleCon.type === "container") {
-            // console.log("== ---- ele.content ----- ==", ele.content);
-            return `<section id=${index}>${ABC(ele.content)}</section>`;
-          }
-        });
-      }
-    });
+    // setCodePreview(renderABC);
+    setCodePreview(formattedCode);
+  }
+  function generateCode(elements) {
+    if (!elements || elements.length === 0) return "";
+
+    const elementsConvertCode = elements
+      .map((ele) => {
+        if (ele.type === "text") {
+          return `<p id="${ele.id}">${ele.content.innerText}</p>`;
+        }
+        if (ele.type === "button") {
+          return `<button id="${ele.id}">${ele.content.innerText}</button>`;
+        }
+        if (ele.type === "container" || ele.type === "__body") {
+          return `<section id="${ele.id}">${generateCode(
+            ele.content
+          )}</section>`;
+        }
+        if (ele.type === "2Col") {
+          return `<section id="${ele.id}">${generateCode(
+            ele.content
+          )}</section>`;
+        }
+        // Add more types as needed
+        return null;
+      })
+      .filter(Boolean)
+      .join("");
+
     return elementsConvertCode;
   }
-  const renderABC = ABC(state.editor.elements);
 
   return (
     <TooltipProvider>
@@ -151,16 +175,16 @@ const FunnelEditorNavigation = ({
           <a href={`/subaccount/${subaccountId}/funnels/${funnelId}`}>
             <ArrowLeftCircle />
           </a>
-          {/* <div className="flex flex-col w-full ">
+          <div className="flex flex-col w-full ">
             <Input
               defaultValue={funnelPageDetails.name}
               className="border-none h-5 m-0 p-0 text-lg"
               // onBlur={handleOnBlurTitleChange}
             />
-            <span className="text-sm text-muted-foreground">
+            {/* <span className="text-sm text-muted-foreground">
               Path: /{funnelPageDetails.pathName}
-            </span>
-          </div> */}
+            </span> */}
+          </div>
         </aside>
         {/* Responsive Icon */}
         <aside>
@@ -230,12 +254,24 @@ const FunnelEditorNavigation = ({
           <div
             className={`${
               openCode ? "block" : "hidden"
-            } absolute top-40 right-[500px] w-[400px] h-[400px] bg-slate-700 z-50 text-[white]`}
+            } absolute top-40 right-[500px] w-[400px] h-[400px] bg-slate-700 z-50 text-white p-4`}
           >
-            {
-              // elementsConvertCode
-              ABC(state.editor.elements)
-            }
+            {openCode && (
+              <span
+                className="cursor-pointer mb-2 block"
+                onClick={handleCloseCode}
+              >
+                x
+              </span>
+            )}
+
+            <SyntaxHighlighter
+              language="html"
+              style={vscDarkPlus}
+              className="w-full h-[90%]"
+            >
+              {codePreview}
+            </SyntaxHighlighter>
           </div>
           <Button
             variant={"ghost"}
@@ -251,9 +287,7 @@ const FunnelEditorNavigation = ({
             variant={"ghost"}
             size={"icon"}
             className={`${
-              !(state.history.currentIndex > 0)
-                ? " "
-                : "bg-[#3f67ad] text-[white]"
+              !(state.history.currentIndex > 0) ? " " : " text-[black]"
             } hover:bg-[#3f67ad] hover:text-[white]`}
           >
             <Undo2 />
@@ -268,21 +302,21 @@ const FunnelEditorNavigation = ({
             className={`${
               !(state.history.currentIndex < state.history.history.length - 1)
                 ? " "
-                : "bg-[#3f67ad] text-[white]"
+                : " text-[black]"
             } hover:bg-[#3f67ad] hover:text-[white] mr-4`}
           >
             <Redo2 />
           </Button>
-          {/* <div className="flex flex-col item-center mr-4">
-            <div className="flex flex-row items-center gap-4">
+          <div className="flex flex-col item-center mr-4">
+            {/* <div className="flex flex-row items-center gap-4">
               Draft
               <Switch disabled defaultChecked={true} />
               Publish
-            </div>
+            </div> */}
             <span className="text-muted-foreground text-sm">
-              Last updated {"lol"}
+              Last updated {"11/11/2024-12:00:00"}
             </span>
-          </div> */}
+          </div>
           <Button
             className={`bg-[#3f67ad] text-[white] text-[15px]`}
             onClick={handleOnSave}

@@ -88,7 +88,7 @@ const ComponentsTab = (props: Props) => {
             .map((element) => (
               <div
                 key={element.id}
-                className="flex-col items-center justify-center flex"
+                className="flex-col items-center justify-center flex cursor-pointer "
               >
                 {element.Component}
                 <span className="text-muted-foreground">{element.label}</span>
@@ -104,7 +104,7 @@ const ComponentsTab = (props: Props) => {
             .map((element) => (
               <div
                 key={element.id}
-                className="flex-col items-center justify-center flex"
+                className="flex-col items-center justify-center flex cursor-pointer"
               >
                 {element.Component}
                 <span className="text-muted-foreground">{element.label}</span>

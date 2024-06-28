@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { Trash } from "lucide-react";
 import React from "react";
 import { EditorElement, useEditor } from "../../../redux/editor-provider";
+import { EditorBtns } from "../../../lib/constants";
 
 type Props = {
   element: EditorElement;
@@ -30,13 +31,23 @@ const ButtonComponent = (props: Props) => {
       },
     });
   };
+  const handleDragState = (e: React.DragEvent, type: EditorBtns) => {
+    if (type === null) return;
+    console.log(e.dataTransfer);
+
+    e.dataTransfer.setData("componentType", type);
+  };
 
   //WE ARE NOT ADDING DRAG DROP
   return (
     <div
       style={styles}
+      draggable
+      onDragStart={(e) => {
+        handleDragState(e, "button");
+      }}
       className={clsx(
-        "p-[2px] w-full m-[5px] relative text-[16px] transition-all",
+        "p-[2px] w-full m-[5px] relative text-[16px] transition-all inline",
         {
           "!border-blue-500":
             state.editor.selectedElement.id === props.element.id,
@@ -49,34 +60,35 @@ const ButtonComponent = (props: Props) => {
     >
       {state.editor.selectedElement.id === props.element.id &&
         !state.editor.liveMode && (
-          <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg">
+          <Badge className="absolute -top-[23px] -left-[12px] rounded-none rounded-t-lg">
             {state.editor.selectedElement.name}
           </Badge>
         )}
-      <button type="button"
-          contentEditable={!state.editor.liveMode}
-          onBlur={(e) => {
-            const spanElement = e.target as HTMLSpanElement;
-            dispatch({
-              type: "UPDATE_ELEMENT",
-              payload: {
-                elementDetails: {
-                  ...props.element,
-                  content: {
-                    innerText: spanElement.innerText,
-                  },
+      <button
+        type="button"
+        contentEditable={!state.editor.liveMode}
+        onBlur={(e) => {
+          const spanElement = e.target as HTMLSpanElement;
+          dispatch({
+            type: "UPDATE_ELEMENT",
+            payload: {
+              elementDetails: {
+                ...props.element,
+                content: {
+                  innerText: spanElement.innerText,
                 },
               },
-            });
-          }}
-        >
-          {!Array.isArray(props.element.content) &&
-            props.element.content.innerText}
+            },
+          });
+        }}
+      >
+        {!Array.isArray(props.element.content) &&
+          props.element.content.innerText}
       </button>
 
       {state.editor.selectedElement.id === props.element.id &&
         !state.editor.liveMode && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
+          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[12px] rounded-none rounded-t-lg ">
             <Trash
               className="cursor-pointer"
               size={16}

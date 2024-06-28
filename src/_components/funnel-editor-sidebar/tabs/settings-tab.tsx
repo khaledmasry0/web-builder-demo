@@ -1,5 +1,4 @@
-"use client";
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -40,6 +39,14 @@ type Props = {};
 
 const SettingsTab = (props: Props) => {
   const { state, dispatch } = useEditor();
+
+  const [renderKey, setrenderKey] = useState(0);
+
+  console.log(" state from SettingsTab", state);
+
+  useEffect(() => {
+    setrenderKey((prev) => prev + 1);
+  }, [state.editor.selectedElement.id]);
 
   const handleOnChanges = (e: any) => {
     const styleSettings = e.target.id;
@@ -88,6 +95,7 @@ const SettingsTab = (props: Props) => {
       type="multiple"
       className="w-full"
       defaultValue={["Typography", "Dimensions", "Decorations", "Flexbox"]}
+      key={renderKey}
     >
       <AccordionItem value="Custom" className="px-6 py-0  ">
         <AccordionTrigger className="!no-underline">Custom</AccordionTrigger>
@@ -557,9 +565,9 @@ const SettingsTab = (props: Props) => {
               </TabsTrigger>
             </TabsList>
           </Tabs>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 my-2">
             <Input
-              className="h-4 w-4"
+              className="h-4 w-4 cursor-pointer"
               placeholder="px"
               type="checkbox"
               id="display"
@@ -577,8 +585,9 @@ const SettingsTab = (props: Props) => {
           <div>
             <Label className="text-muted-foreground"> Direction</Label>
             <Input
-              placeholder="px"
+              placeholder="row | column"
               id="flexDirection"
+              className="mt-2"
               onChange={handleOnChanges}
               value={state.editor.selectedElement.styles.flexDirection}
             />

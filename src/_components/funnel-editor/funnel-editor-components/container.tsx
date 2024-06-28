@@ -1,4 +1,3 @@
-"use client";
 import { Badge } from "../../../components/ui/badge";
 import { EditorBtns, defaultStyles } from "../../../lib/constants";
 // import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
@@ -18,6 +17,8 @@ const Container = ({ element }: Props) => {
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation();
     const componentType = e.dataTransfer.getData("componentType") as EditorBtns;
+    console.log(componentType);
+    // console.log(type);
 
     switch (componentType) {
       case "text":
@@ -44,17 +45,16 @@ const Container = ({ element }: Props) => {
           payload: {
             containerId: id,
             elementDetails: {
-              content: { innerText: "Button"  },
+              content: { innerText: "Button" },
               id: v4(),
               name: "Button",
               styles: {
                 color: "black",
-                border : "1px solid #00000096",
-                width : "fit-content",
-                background : "#ccc",
-                padding : "0px 5px",
-                borderRadius: "3px"
-                
+                border: "1px solid #00000096",
+                width: "fit-content",
+                background: "#ccc",
+                padding: "0px 5px",
+                borderRadius: "3px",
               },
               type: "button",
             },
@@ -82,7 +82,7 @@ const Container = ({ element }: Props) => {
           },
         });
         break;
-      // case "video":
+        // case "video":
         dispatch({
           type: "ADD_ELEMENT",
           payload: {
@@ -207,11 +207,16 @@ const Container = ({ element }: Props) => {
 
   return (
     <div
-      style={styles}
+      style={{
+        ...styles,
+        ...(styles.backgroundImage && {
+          backgroundImage: `url(${styles.backgroundImage})`,
+        }),
+      }}
       className={clsx("relative p-4 transition-all group", {
         "max-w-full w-full": type === "container" || type === "2Col",
         "h-fit": type === "container",
-        "h-full": type === "__body",
+        "h-full pt-6": type === "__body",
         "overflow-scroll ": type === "__body",
         "flex flex-col md:!flex-row": type === "2Col",
         "!border-blue-500":
@@ -253,7 +258,7 @@ const Container = ({ element }: Props) => {
       {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode &&
         state.editor.selectedElement.type !== "__body" && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
+          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg cursor-pointer ">
             <Trash size={16} onClick={handleDeleteElement} />
           </div>
         )}
