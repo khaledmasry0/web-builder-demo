@@ -3,7 +3,7 @@ import { Badge } from "../../../components/ui/badge";
 // import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
 import clsx from "clsx";
 import { Trash } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { EditorElement, useEditor } from "../../../redux/editor-provider";
 import { EditorBtns } from "../../../lib/constants";
 
@@ -12,6 +12,7 @@ type Props = {
 };
 
 const TextComponent = ({ element }: Props) => {
+  const [clicked, setclicked] = useState(false);
   const { dispatch, state } = useEditor();
 
   const handleDeleteElement = () => {
@@ -23,6 +24,7 @@ const TextComponent = ({ element }: Props) => {
   const styles = element.styles;
 
   const handleOnClickBody = (e: React.MouseEvent) => {
+    setclicked((prev) => !prev);
     e.stopPropagation();
     dispatch({
       type: "CHANGE_CLICKED_ELEMENT",
@@ -35,25 +37,21 @@ const TextComponent = ({ element }: Props) => {
   //WE ARE NOT ADDING DRAG DROP
   const handleDragState = (e: React.DragEvent, type: EditorBtns) => {
     if (type === null) return;
-    console.log(e.dataTransfer.getData("componentType"));
 
     e.dataTransfer.setData("componentType", type);
-
-    console.log(e.dataTransfer);
-    console.log(e.dataTransfer.getData("componentType"));
   };
-
   return (
     <div
       style={styles}
-      draggable
+      draggable={state.editor.selectedElement.id === element.id}
       onDragStart={(e) => {
         handleDragState(e, "text");
       }}
       className={clsx(
         "p-[2px] w-full m-[5px] relative text-[16px] transition-all",
         {
-          "!border-blue-500": state.editor.selectedElement.id === element.id,
+          "!border-blue-500 cursor-copy":
+            state.editor.selectedElement.id === element.id,
 
           "!border-solid": state.editor.selectedElement.id === element.id,
           "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,

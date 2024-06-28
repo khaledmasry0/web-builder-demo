@@ -2,7 +2,7 @@ import { Badge } from "../../../components/ui/badge";
 import { EditorBtns, defaultStyles } from "../../../lib/constants";
 // import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { v4 } from "uuid";
 import Recursive from "./recursive";
 import { Trash } from "lucide-react";
@@ -11,6 +11,8 @@ import { EditorElement, useEditor } from "../../../redux/editor-provider";
 type Props = { element: EditorElement };
 
 const Container = ({ element }: Props) => {
+  const [clicked, setclicked] = useState(false);
+
   const { id, content, name, styles, type } = element;
   const { dispatch, state } = useEditor();
 
@@ -18,6 +20,8 @@ const Container = ({ element }: Props) => {
     e.stopPropagation();
     const componentType = e.dataTransfer.getData("componentType") as EditorBtns;
     console.log(componentType);
+    console.log(e.dataTransfer);
+
     // console.log(type);
 
     switch (componentType) {
@@ -183,10 +187,19 @@ const Container = ({ element }: Props) => {
 
   const handleDragStart = (e: React.DragEvent, type: string) => {
     if (type === "__body") return;
-    e.dataTransfer.setData("componentType", type);
+    console.log(type, state.editor.selectedElement.type);
+
+    e.dataTransfer.setData(
+      "componentType",
+      state.editor.selectedElement.type
+        ? state.editor.selectedElement.type
+        : type
+    );
+    console.log(e.dataTransfer);
   };
 
   const handleOnClickBody = (e: React.MouseEvent) => {
+    setclicked((prev) => !prev);
     e.stopPropagation();
     dispatch({
       type: "CHANGE_CLICKED_ELEMENT",
@@ -219,7 +232,7 @@ const Container = ({ element }: Props) => {
         "h-full pt-6": type === "__body",
         "overflow-scroll ": type === "__body",
         "flex flex-col md:!flex-row": type === "2Col",
-        "!border-blue-500":
+        "!border-blue-500 cursor-copy":
           state.editor.selectedElement.id === id &&
           !state.editor.liveMode &&
           state.editor.selectedElement.type !== "__body",
@@ -233,7 +246,7 @@ const Container = ({ element }: Props) => {
       })}
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}
-      draggable={type !== "__body"}
+      draggable={type !== "__body" && clicked ? true : false}
       onClick={handleOnClickBody}
       onDragStart={(e) => handleDragStart(e, "container")}
     >

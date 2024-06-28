@@ -42,14 +42,14 @@ const ButtonComponent = (props: Props) => {
   return (
     <div
       style={styles}
-      draggable
+      draggable={state.editor.selectedElement.id === props.element.id}
       onDragStart={(e) => {
         handleDragState(e, "button");
       }}
       className={clsx(
         "p-[2px] w-full m-[5px] relative text-[16px] transition-all inline",
         {
-          "!border-blue-500":
+          "!border-blue-500 cursor-copy":
             state.editor.selectedElement.id === props.element.id,
 
           "!border-solid": state.editor.selectedElement.id === props.element.id,
