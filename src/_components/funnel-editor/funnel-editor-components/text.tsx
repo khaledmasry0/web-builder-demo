@@ -11,8 +11,9 @@ type Props = {
 };
 
 const TextComponent = (props: Props) => {
+  // console.log("text",props.element.type);
+  
   const { dispatch, state } = useEditor();
-
   const handleDeleteElement = () => {
     dispatch({
       type: "DELETE_ELEMENT",
@@ -21,7 +22,7 @@ const TextComponent = (props: Props) => {
   };
   const styles = props.element.styles;
 
-  const handleOnClickBody = (e: React.MouseEvent) => {
+  const handleOnClickBody = (e: React.MouseEvent) => {    
     e.stopPropagation();
     dispatch({
       type: "CHANGE_CLICKED_ELEMENT",
@@ -30,10 +31,18 @@ const TextComponent = (props: Props) => {
       },
     });
   };
-
+  const handleDragStart = (e: React.DragEvent, type: string) => {
+    console.log("==== ahmed_Text ====" , type);
+    
+    if (type === "__body") return;
+    e.dataTransfer.setData("componentType", props.element.type);
+  };
   //WE ARE NOT ADDING DRAG DROP
   return (
     <div
+    draggable
+    onDragStart={(e) => handleDragStart(e, "text")}
+
       style={styles}
       className={clsx(
         "p-[2px] w-full m-[5px] relative text-[16px] transition-all",

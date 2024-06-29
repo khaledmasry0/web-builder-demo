@@ -3,7 +3,7 @@ import { Badge } from "../../../components/ui/badge";
 import { EditorBtns, defaultStyles } from "../../../lib/constants";
 // import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { v4 } from "uuid";
 import Recursive from "./recursive";
 import { Trash } from "lucide-react";
@@ -13,12 +13,15 @@ type Props = { element: EditorElement };
 
 const Container = ({ element }: Props) => {
   const { id, content, name, styles, type } = element;
+  console.log("ahmeddddd", type);
+  
   const { dispatch, state } = useEditor();
-
   const handleOnDrop = (e: React.DragEvent, type: string) => {
+    
     e.stopPropagation();
     const componentType = e.dataTransfer.getData("componentType") as EditorBtns;
-
+    // console.log("=== OnDrop ===" , componentType);
+    
     switch (componentType) {
       case "text":
         dispatch({
@@ -44,17 +47,16 @@ const Container = ({ element }: Props) => {
           payload: {
             containerId: id,
             elementDetails: {
-              content: { innerText: "Button"  },
+              content: { innerText: "Button" },
               id: v4(),
               name: "Button",
               styles: {
                 color: "black",
-                border : "1px solid #00000096",
-                width : "fit-content",
-                background : "#ccc",
-                padding : "0px 5px",
-                borderRadius: "3px"
-                
+                border: "1px solid #00000096",
+                width: "fit-content",
+                background: "#ccc",
+                padding: "0px 5px",
+                borderRadius: "3px",
               },
               type: "button",
             },
@@ -78,23 +80,6 @@ const Container = ({ element }: Props) => {
                 ...defaultStyles,
               },
               type: "link",
-            },
-          },
-        });
-        break;
-      // case "video":
-        dispatch({
-          type: "ADD_ELEMENT",
-          payload: {
-            containerId: id,
-            elementDetails: {
-              content: {
-                src: "https://www.youtube.com/embed/A3l6YYkXzzg?si=zbcCeWcpq7Cwf8W1",
-              },
-              id: v4(),
-              name: "Video",
-              styles: {},
-              type: "video",
             },
           },
         });
@@ -180,12 +165,14 @@ const Container = ({ element }: Props) => {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
-
   const handleDragStart = (e: React.DragEvent, type: string) => {
     if (type === "__body") return;
     e.dataTransfer.setData("componentType", type);
   };
-
+  const handleDragStartChild = (e: React.DragEvent, child) => {
+    e.stopPropagation();
+    e.dataTransfer.setData("componentType", child.type);
+  };
   const handleOnClickBody = (e: React.MouseEvent) => {
     e.stopPropagation();
     dispatch({
@@ -230,7 +217,7 @@ const Container = ({ element }: Props) => {
       onDragOver={handleDragOver}
       draggable={type !== "__body"}
       onClick={handleOnClickBody}
-      onDragStart={(e) => handleDragStart(e, "container")}
+      onDragStart={(e) => handleDragStart(e, type)}
     >
       <Badge
         className={clsx(
@@ -247,7 +234,13 @@ const Container = ({ element }: Props) => {
 
       {Array.isArray(content) &&
         content.map((childElement) => (
-          <Recursive key={childElement.id} element={childElement} />
+          <div
+          draggable
+          onDragStart={(e) => handleDragStartChild(e, childElement)}
+          
+          >
+            <Recursive key={childElement.id} element={childElement} />
+            </div>
         ))}
 
       {state.editor.selectedElement.id === element.id &&

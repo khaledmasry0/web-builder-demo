@@ -118,26 +118,26 @@ const FunnelEditorNavigation = ({
     const elementsConvertCode = elements.map((ele) => {
       if (!ele.content || ele.content.length === 0) return null;
       if (Array.isArray(ele.content)) {
-        console.log("ahmed");
-        console.log("== ---- ele.content ----- ==", ele.content);
+        // console.log("ahmed");
+        // console.log("== ---- ele.content ----- ==", ele.content);
 
-        return ele.content.map((eleCon, index) => {
-          if (eleCon.type === "text") {
-            return `<span>${eleCon.content.innerText}</span>`;
+        // return ele.content.map((ele, index) => {
+          if (ele.type === "text") {
+            return `<span>${ele.content.innerText}</span>`;
           }
-          if (eleCon.type === "button") {
-            return `<button>${eleCon.content.innerText}</button>`;
+          if (ele.type === "button") {
+            return `<button>${ele.content.innerText}</button>`;
           }
-          if (eleCon.type === "container") {
+          if (ele.type === "container") {
             // console.log("== ---- ele.content ----- ==", ele.content);
-            return `<section id=${index}>${ABC(ele.content)}</section>`;
+            return `<section>${ABC(ele.content)}</section>`;
           }
-        });
+        // });
       }
     });
     return elementsConvertCode;
   }
-  const renderABC = ABC(state.editor.elements);
+  // const renderABC = ABC(state.editor.elements);
 
   return (
     <TooltipProvider>

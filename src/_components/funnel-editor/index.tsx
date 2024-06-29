@@ -12,10 +12,12 @@ type Props = { funnelPageId: string; liveMode?: boolean };
 
 const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
   const { dispatch, state } = useEditor();
-  // console.log("=== state ===" , state);
+  // console.log("=== state aaaaaaa ===" , state.editor.elements);
   
   useEffect(() => {
     if (liveMode) {
+      console.log("=== liveMode ===", liveMode);
+      
       dispatch({
         type: "TOGGLE_LIVE_MODE",
         payload: { value: true },
@@ -50,7 +52,7 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
     dispatch({ type: "TOGGLE_PREVIEW_MODE" });
     dispatch({ type: "TOGGLE_LIVE_MODE" });
   };
-  console.log("===== state ===",state.editor.elements);
+  // console.log("===== state ===",state.editor.elements);
   
   return (
     <div
@@ -79,7 +81,6 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
       {/* ========== */}
       {Array.isArray(state.editor.elements) &&
         state.editor.elements.map((childElement) => (
-          // console.log(childElement)
           
           <Recursive key={childElement.id} element={childElement} />
         ))}

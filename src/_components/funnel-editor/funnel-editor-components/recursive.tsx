@@ -11,9 +11,12 @@ import ButtonComponent from "./button";
 
 type Props = {
   element: EditorElement;
+  
 };
 
 const Recursive = ({ element }: Props) => {
+  console.log("rescursive element.type" , element.type);
+  
   switch (element.type) {
     case "text":
       return <TextComponent element={element} />;

@@ -75,6 +75,10 @@ const addAnElement = (
       "You sent the wrong action type to the Add Element editor State"
     );
   return editorArray.map((item) => {
+    // كدا هو بيسمع هنا 
+    // console.log("=== item ===", item);
+    // console.log("==== ...item ====" , {...item});
+    
     if (item.id === action.payload.containerId && Array.isArray(item.content)) {
       return {
         ...item,
@@ -132,12 +136,17 @@ const editorReducer = (
   state: EditorState = initialState,
   action: EditorAction
 ): EditorState => {
+  console.log("=== state ===", state);
+  
   switch (action.type) {
+    
     case "ADD_ELEMENT":
       const updatedEditorState = {
         ...state.editor,
         elements: addAnElement(state.editor.elements, action),
       };
+      // console.log("=== updatedEditorState ===", updatedEditorState);
+      
       // Update the history to include the entire updated EditorState
       const updatedHistory = [
         ...state.history.history.slice(0, state.history.currentIndex + 1),
@@ -158,6 +167,8 @@ const editorReducer = (
 
     case "UPDATE_ELEMENT":
       // Perform your logic to update the element in the state
+      // console.log("===  UPDATE_ELEMENT  ===");
+      
       const updatedElements = updateAnElement(state.editor.elements, action);
 
       const UpdatedElementIsSelected =
@@ -219,17 +230,14 @@ const editorReducer = (
       return deletedState;
 
     case "CHANGE_CLICKED_ELEMENT":
+      // console.log("====  CHANGE_CLICKED_ELEMENT ====", state.editor.selectedElement);
+      console.log("====  CHANGE_CLICKED_ELEMENT Action ====", action.payload.elementDetails);
+      const newSelectedElement = action.payload.elementDetails 
       const clickedState = {
         ...state,
         editor: {
           ...state.editor,
-          selectedElement: action.payload.elementDetails || {
-            id: "",
-            content: [],
-            name: "",
-            styles: {},
-            type: null,
-          },
+          selectedElement: newSelectedElement
         },
         history: {
           ...state.history,
@@ -242,6 +250,8 @@ const editorReducer = (
       };
       return clickedState;
     case "CHANGE_DEVICE":
+      console.log("===  CHANGE_DEVICE  ===");
+      
       const changedDeviceState = {
         ...state,
         editor: {
@@ -320,6 +330,8 @@ const editorReducer = (
       };
 
     case "SET_FUNNELPAGE_ID":
+      console.log("=== SET_FUNNELPAGE_ID ===");
+      
       const { funnelPageId } = action.payload;
       const updatedEditorStateWithFunnelPageId = {
         ...state.editor,

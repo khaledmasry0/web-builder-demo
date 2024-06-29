@@ -5,6 +5,8 @@ type Props = {};
 
 const ContainerPlaceholder = (props: Props) => {
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
+    console.log(type);
+    
     if (type === null) return;
     e.dataTransfer.setData("componentType", type);
   };
