@@ -36,6 +36,7 @@ const TextComponent = ({ element }: Props) => {
 
   //WE ARE NOT ADDING DRAG DROP
   const handleDragState = (e: React.DragEvent, type: EditorBtns) => {
+    e.stopPropagation(); // prevent
     if (type === null) return;
 
     e.dataTransfer.setData("componentType", type);
@@ -43,7 +44,9 @@ const TextComponent = ({ element }: Props) => {
   return (
     <div
       style={styles}
-      draggable={state.editor.selectedElement.id === element.id}
+      draggable={
+        state.editor.selectedElement.id === element.id && clicked ? true : false
+      }
       onDragStart={(e) => {
         handleDragState(e, "text");
       }}
