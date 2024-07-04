@@ -1,0 +1,208 @@
+{
+  "projectName": "test",
+  "projectType": "create-react-app",
+  "projectId": "123456",
+  "AppRouting": "",
+  "projectPages": [
+    {
+      "pageName": "App",
+      "pageId": "444444444444",
+      "pageBody": {
+        "content": [
+          {
+            "content": [
+              {
+                "content": [
+                  {
+                    "content": { "innerText": "user name" },
+                    "id": "0cdeae57-450c-4c67-8630-6bc6a198af87",
+                    "name": "Text",
+                    "styles": {
+                      "color": "black",
+                      "backgroundPosition": "center",
+                      "objectFit": "cover",
+                      "backgroundRepeat": "no-repeat",
+                      "textAlign": "left",
+                      "opacity": "100%"
+                    },
+                    "type": "text"
+                  },
+                  {
+                    "content": { "innerText": "password" },
+                    "id": "80767cc2-95d6-463e-87b0-3f6d8d68be7e",
+                    "name": "Text",
+                    "styles": {
+                      "color": "black",
+                      "backgroundPosition": "center",
+                      "objectFit": "cover",
+                      "backgroundRepeat": "no-repeat",
+                      "textAlign": "left",
+                      "opacity": "100%"
+                    },
+                    "type": "text"
+                  }
+                ],
+                "id": "58ea481c-bdd3-482a-ab77-878144f9e386",
+                "name": "Container",
+                "styles": {
+                  "backgroundPosition": "center",
+                  "objectFit": "cover",
+                  "backgroundRepeat": "no-repeat",
+                  "textAlign": "left",
+                  "opacity": "100%",
+                  "width": "100%"
+                },
+                "type": "container"
+              },
+              {
+                "content": [],
+                "id": "fc3bd537-4e1e-4f29-9569-fa60b35e5c0f",
+                "name": "Container",
+                "styles": {
+                  "backgroundPosition": "center",
+                  "objectFit": "cover",
+                  "backgroundRepeat": "no-repeat",
+                  "textAlign": "left",
+                  "opacity": "100%",
+                  "width": "100%"
+                },
+                "type": "container"
+              }
+            ],
+            "id": "d3e87eda-0528-4f6e-a666-28d00fa4d240",
+            "name": "Two Columns",
+            "styles": {
+              "backgroundPosition": "center",
+              "objectFit": "cover",
+              "backgroundRepeat": "no-repeat",
+              "textAlign": "left",
+              "opacity": "100%",
+              "display": "flex"
+            },
+            "type": "2Col"
+          },
+          {
+            "content": { "innerText": "Login" },
+            "id": "0b2ff98c-1676-40de-81f2-7ee9a819261b",
+            "name": "Button",
+            "styles": {
+              "color": "black",
+              "border": "1px solid #00000096",
+              "width": "fit-content",
+              "background": "#ccc",
+              "padding": "0px 5px",
+              "borderRadius": "3px"
+            },
+            "type": "button",
+            "action": "send a request to www.server.com"
+          }
+        ],
+        "id": "__body",
+        "name": "Body",
+        "styles": {},
+        "type": "__body",
+        "action": null
+      }
+    },
+    {
+      "pageName": "About us",
+      "pageId": "3333333333",
+      "pageBody": {
+        "content": [
+          {
+            "content": [
+              {
+                "content": [
+                  {
+                    "content": { "innerText": "user name" },
+                    "id": "0cdeae57-450c-4c67-8630-6bc6a198af87",
+                    "name": "Text",
+                    "styles": {
+                      "color": "black",
+                      "backgroundPosition": "center",
+                      "objectFit": "cover",
+                      "backgroundRepeat": "no-repeat",
+                      "textAlign": "left",
+                      "opacity": "100%"
+                    },
+                    "type": "text"
+                  },
+                  {
+                    "content": { "innerText": "password" },
+                    "id": "80767cc2-95d6-463e-87b0-3f6d8d68be7e",
+                    "name": "Text",
+                    "styles": {
+                      "color": "black",
+                      "backgroundPosition": "center",
+                      "objectFit": "cover",
+                      "backgroundRepeat": "no-repeat",
+                      "textAlign": "left",
+                      "opacity": "100%"
+                    },
+                    "type": "text"
+                  }
+                ],
+                "id": "58ea481c-bdd3-482a-ab77-878144f9e386",
+                "name": "Container",
+                "styles": {
+                  "backgroundPosition": "center",
+                  "objectFit": "cover",
+                  "backgroundRepeat": "no-repeat",
+                  "textAlign": "left",
+                  "opacity": "100%",
+                  "width": "100%"
+                },
+                "type": "container"
+              },
+              {
+                "content": [],
+                "id": "fc3bd537-4e1e-4f29-9569-fa60b35e5c0f",
+                "name": "Container",
+                "styles": {
+                  "backgroundPosition": "center",
+                  "objectFit": "cover",
+                  "backgroundRepeat": "no-repeat",
+                  "textAlign": "left",
+                  "opacity": "100%",
+                  "width": "100%"
+                },
+                "type": "container"
+              }
+            ],
+            "id": "d3e87eda-0528-4f6e-a666-28d00fa4d240",
+            "name": "Two Columns",
+            "styles": {
+              "backgroundPosition": "center",
+              "objectFit": "cover",
+              "backgroundRepeat": "no-repeat",
+              "textAlign": "left",
+              "opacity": "100%",
+              "display": "flex"
+            },
+            "type": "2Col"
+          },
+          {
+            "content": { "innerText": "Login" },
+            "id": "0b2ff98c-1676-40de-81f2-7ee9a819261b",
+            "name": "Button",
+            "styles": {
+              "color": "black",
+              "border": "1px solid #00000096",
+              "width": "fit-content",
+              "background": "#ccc",
+              "padding": "0px 5px",
+              "borderRadius": "3px"
+            },
+            "type": "button",
+            "action": "send a request to www.server.com"
+          }
+        ],
+        "id": "__body",
+        "name": "Body",
+        "styles": {},
+        "type": "__body",
+        "action": null
+      }
+    }
+  ]
+}

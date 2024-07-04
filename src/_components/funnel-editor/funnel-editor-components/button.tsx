@@ -32,6 +32,8 @@ const ButtonComponent = (props: Props) => {
     });
   };
   const handleDragState = (e: React.DragEvent, type: EditorBtns) => {
+    e.stopPropagation();
+
     if (type === null) return;
     console.log(e.dataTransfer);
 
@@ -42,7 +44,7 @@ const ButtonComponent = (props: Props) => {
   return (
     <div
       style={styles}
-      draggable={state.editor.selectedElement.id === props.element.id}
+      draggable
       onDragStart={(e) => {
         handleDragState(e, "button");
       }}

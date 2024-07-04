@@ -18,6 +18,8 @@ const LinkComponent = (props: Props) => {
   const { dispatch, state } = useEditor();
 
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
+    e.stopPropagation();
+
     if (type === null) return;
     e.dataTransfer.setData("componentType", type);
   };

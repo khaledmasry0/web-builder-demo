@@ -60,10 +60,25 @@ const TwoColumns = (props: Props) => {
           payload: {
             containerId: id,
             elementDetails: {
-              content: [],
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles, width: "100%" },
+                  type: "container",
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles, width: "100%" },
+                  type: "container",
+                },
+              ],
               id: v4(),
               name: "Two Columns",
-              styles: { ...defaultStyles },
+              styles: { ...defaultStyles, display: "flex" },
               type: "2Col",
             },
           },
@@ -76,6 +91,8 @@ const TwoColumns = (props: Props) => {
     e.preventDefault();
   };
   const handleDragStart = (e: React.DragEvent, type: string) => {
+    e.stopPropagation();
+
     if (type === "__body") return;
     e.dataTransfer.setData("componentType", type);
   };

@@ -12,7 +12,6 @@ type Props = {
 };
 
 const TextComponent = ({ element }: Props) => {
-  const [clicked, setclicked] = useState(false);
   const { dispatch, state } = useEditor();
 
   const handleDeleteElement = () => {
@@ -24,7 +23,6 @@ const TextComponent = ({ element }: Props) => {
   const styles = element.styles;
 
   const handleOnClickBody = (e: React.MouseEvent) => {
-    setclicked((prev) => !prev);
     e.stopPropagation();
     dispatch({
       type: "CHANGE_CLICKED_ELEMENT",
@@ -36,7 +34,7 @@ const TextComponent = ({ element }: Props) => {
 
   //WE ARE NOT ADDING DRAG DROP
   const handleDragState = (e: React.DragEvent, type: EditorBtns) => {
-    e.stopPropagation(); // prevent
+    e.stopPropagation();
     if (type === null) return;
 
     e.dataTransfer.setData("componentType", type);
@@ -44,9 +42,7 @@ const TextComponent = ({ element }: Props) => {
   return (
     <div
       style={styles}
-      draggable={
-        state.editor.selectedElement.id === element.id && clicked ? true : false
-      }
+      draggable
       onDragStart={(e) => {
         handleDragState(e, "text");
       }}

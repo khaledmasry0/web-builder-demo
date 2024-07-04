@@ -11,8 +11,6 @@ import { EditorElement, useEditor } from "../../../redux/editor-provider";
 type Props = { element: EditorElement };
 
 const Container = ({ element }: Props) => {
-  const [clicked, setclicked] = useState(false);
-
   const { id, content, name, styles, type } = element;
   const { dispatch, state } = useEditor();
 
@@ -186,20 +184,15 @@ const Container = ({ element }: Props) => {
   };
 
   const handleDragStart = (e: React.DragEvent, type: string) => {
+    e.stopPropagation();
     if (type === "__body") return;
     console.log(type, state.editor.selectedElement.type);
 
-    e.dataTransfer.setData(
-      "componentType",
-      state.editor.selectedElement.type
-        ? state.editor.selectedElement.type
-        : type
-    );
+    e.dataTransfer.setData("componentType", type);
     console.log(e.dataTransfer);
   };
 
   const handleOnClickBody = (e: React.MouseEvent) => {
-    setclicked((prev) => !prev);
     e.stopPropagation();
     dispatch({
       type: "CHANGE_CLICKED_ELEMENT",
@@ -246,7 +239,7 @@ const Container = ({ element }: Props) => {
       })}
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}
-      draggable={type !== "__body" && clicked ? true : false}
+      draggable={type !== "__body"}
       onClick={handleOnClickBody}
       onDragStart={(e) => handleDragStart(e, "container")}
     >

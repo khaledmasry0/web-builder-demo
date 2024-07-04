@@ -14,6 +14,10 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
   const { dispatch, state } = useEditor();
   // console.log("=== state ===" , state);
 
+  console.log(state.editor.elements);
+
+  localStorage.setItem("funnelData", JSON.stringify(state.editor.elements));
+
   useEffect(() => {
     if (liveMode) {
       dispatch({
