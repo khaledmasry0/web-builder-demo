@@ -15,15 +15,18 @@ import SettingsTab from "./tabs/settings-tab";
 import MediaBucketTab from "./tabs/media-bucket-tab";
 import ComponentsTab from "./tabs/components-tab/index";
 import { useEditor } from "../../redux/editor-provider";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 type Props = {
   subaccountId: string;
 };
 
 const FunnelEditorSidebar = ({ subaccountId }: Props) => {
-  const { state, dispatch } = useEditor();
+  // const { state, dispatch } = useEditor();
   // console.log(state);
-  
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.editor);
   return (
     <Sheet open={true} modal={false}>
       <Tabs className="w-full " defaultValue="Settings">

@@ -238,7 +238,7 @@ const editorSlice = createSlice({
     changeClickedElement(state, action) {
       // console.log("====  CHANGE_CLICKED_ELEMENT Action ====", action.payload.elementDetails);
       state.editor.selectedElement = action.payload.elementDetails;
-      console.log("^^^^ newSelectedElement &&&", state.editor.selectedElement);
+      // console.log("^^^^ newSelectedElement &&&", state.editor.selectedElement);
 
       state.history.history.push({ ...state.editor });
       state.history.currentIndex++;
@@ -248,7 +248,7 @@ const editorSlice = createSlice({
     },
     togglePreviewMode(state) {
       state.editor.previewMode = !state.editor.previewMode;
-      console.log("ssssssssssssssssssssssssssssssss" , state.editor.previewMode);
+      // console.log("ssssssssssssssssssssssssssssssss" , state.editor.previewMode);
     },
     toggleLiveMode(state, action) {
       state.editor.liveMode = action.payload.value;

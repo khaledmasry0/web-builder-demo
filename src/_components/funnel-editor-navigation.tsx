@@ -43,6 +43,9 @@ import {
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import beautify from "js-beautify";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
+import { changeDevice, redo, toggleLiveMode, togglePreviewMode, undo } from "../state/Slice";
 
 type Props = {
   funnelId: string;
@@ -56,7 +59,9 @@ const FunnelEditorNavigation = ({
   subaccountId,
 }: Props) => {
   // const router = useNavigation();
-  const { state, dispatch } = useEditor();
+  // const { state, dispatch } = useEditor();
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.editor);
   const [codePreview, setCodePreview] = useState("");
   // console.log("=== stateaaaaa ===" , state);
 
@@ -95,22 +100,28 @@ const FunnelEditorNavigation = ({
   // };
 
   const handlePreviewClick = () => {
-    dispatch({ type: "TOGGLE_PREVIEW_MODE" });
-    dispatch({ type: "TOGGLE_LIVE_MODE" });
+    dispatch(togglePreviewMode());
+    // dispatch({ type: "TOGGLE_PREVIEW_MODE" });
+    // dispatch({ type: "TOGGLE_LIVE_MODE" });
+    console.log("mohamed");
+    
+    dispatch(toggleLiveMode({value : true}));
   };
 
   const handleUndo = () => {
-    dispatch({ type: "UNDO" });
+    dispatch(undo())
+    // dispatch({ type: "UNDO" });
   };
 
   const handleRedo = () => {
-    dispatch({ type: "REDO" });
+    dispatch(redo())
+    // dispatch({ type: "REDO" });
   };
 
   const handleOnSave = async () => {
     const content = state.editor;
     // const content = state.editor;
-    console.log(content);
+    // console.log(content);
     localStorage.setItem("funnelData", JSON.stringify(state.editor));
   };
   const [openCode, setOpenCode] = useState(false);
@@ -128,7 +139,7 @@ const FunnelEditorNavigation = ({
   function handleOpenCodePreview() {
     const renderABC = generateCode(state.editor.elements);
     const formattedCode = beautify.html(renderABC, { indent_size: 2 });
-    console.log(state.editor.elements);
+    // console.log(state.editor.elements);
 
     // setCodePreview(renderABC);
     setCodePreview(formattedCode);
@@ -193,10 +204,11 @@ const FunnelEditorNavigation = ({
             className="w-fit"
             value={state.editor.device}
             onValueChange={(value) => {
-              dispatch({
-                type: "CHANGE_DEVICE",
-                payload: { device: value as DeviceTypes },
-              });
+              dispatch(changeDevice({ device: value as DeviceTypes }))
+              // dispatch({
+              //   type: "CHANGE_DEVICE",
+              //   payload: { device: value as DeviceTypes },
+              // });
             }}
           >
             <TabsList className="grid w-full gap-3 grid-cols-3 bg-transparent h-fit">

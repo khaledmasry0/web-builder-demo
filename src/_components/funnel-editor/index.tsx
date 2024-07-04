@@ -7,23 +7,32 @@ import { EyeOff } from "lucide-react";
 import React, { useEffect } from "react";
 import Recursive from "./funnel-editor-components/recursive";
 import { useEditor } from "../../redux/editor-provider";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { changeClickedElement, loadData, toggleLiveMode, togglePreviewMode } from "../../state/Slice";
 
 type Props = { funnelPageId: string; liveMode?: boolean };
 
 const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
-  const { dispatch, state } = useEditor();
+  console.log(liveMode);
+  
+  // const { dispatch, state } = useEditor();
   // console.log("=== state ===" , state);
-
-  console.log(state.editor.elements);
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.editor);
+  // console.log(state.editor.elements);
 
   localStorage.setItem("funnelData", JSON.stringify(state.editor.elements));
 
   useEffect(() => {
     if (liveMode) {
-      dispatch({
-        type: "TOGGLE_LIVE_MODE",
-        payload: { value: true },
-      });
+      console.log("ahmed");
+
+      dispatch(toggleLiveMode({ value: true }));
+      // dispatch({
+      //   type: "TOGGLE_LIVE_MODE",
+      //   payload: { value: true },
+      // });
     }
   }, [liveMode]);
 
@@ -32,29 +41,41 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
     if (savedData) {
       console.log(JSON.parse(savedData));
       // return;
-      dispatch({
-        type: "LOAD_DATA",
-        payload: {
-          elements: JSON.parse(savedData).elements,
-          withLive: false,
-        },
-      });
+      dispatch(
+        loadData({ elements: JSON.parse(savedData).elements, withLive: false })
+      );
+      // dispatch({
+      //   type: "LOAD_DATA",
+      //   payload: {
+      //     elements: JSON.parse(savedData).elements,
+      //     withLive: false,
+      //   },
+      // });
       console.log("savedData", savedData);
     }
-  }, []);
+  }, [dispatch]);
 
   const handleClick = () => {
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {},
-    });
+    dispatch(changeClickedElement({}))
+    // dispatch({
+    //   type: "CHANGE_CLICKED_ELEMENT",
+    //   payload: {},
+    // });
   };
 
   const handleUnpreview = () => {
-    dispatch({ type: "TOGGLE_PREVIEW_MODE" });
-    dispatch({ type: "TOGGLE_LIVE_MODE" });
+    dispatch(togglePreviewMode())
+    // dispatch({ type: "TOGGLE_PREVIEW_MODE" });
+    // dispatch({ type: "TOGGLE_LIVE_MODE" });
+    dispatch(toggleLiveMode({value : false}))
   };
-  console.log("===== state ===", state.editor.elements);
+  // console.log("===== state ===", state.editor.elements);
+// console.log("ttt   Of   ttttttttt" , state.editor.previewMode);
+// console.log("aaa  Of   aaaaa" ,  state.editor.liveMode);
+// console.log("----- liveMode ---" , liveMode);
+
+
+// state.editor.previewMode && state.editor.liveMode
 
   return (
     <div
@@ -70,7 +91,7 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
       )}
       onClick={handleClick}
     >
-      {state.editor.previewMode && state.editor.liveMode && (
+      {state.editor.previewMode &&  (
         <Button
           variant={"ghost"}
           size={"icon"}

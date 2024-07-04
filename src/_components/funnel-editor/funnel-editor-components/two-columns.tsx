@@ -8,6 +8,9 @@ import clsx from "clsx";
 import { Badge } from "../../../components/ui/badge";
 import { EditorBtns, defaultStyles } from "../../../lib/constants";
 import { EditorElement, useEditor } from "../../../redux/editor-provider";
+import { addElement, changeClickedElement } from "../../../state/Slice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 type Props = {
   element: EditorElement;
@@ -15,34 +18,49 @@ type Props = {
 
 const TwoColumns = (props: Props) => {
   const { id, content, type } = props.element;
-  const { dispatch, state } = useEditor();
-
+  // const { dispatch, state } = useEditor();
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.editor);
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation();
     const componentType = e.dataTransfer.getData("componentType") as EditorBtns;
     switch (componentType) {
       case "text":
-        dispatch({
-          type: "ADD_ELEMENT",
-          payload: {
+        dispatch(
+          addElement({
             containerId: id,
             elementDetails: {
-              content: { innerText: "Text Component" },
               id: v4(),
               name: "Text",
+              content: { innerText: "Text Element" },
               styles: {
                 color: "black",
                 ...defaultStyles,
               },
               type: "text",
             },
-          },
-        });
+          })
+        );
+        // dispatch({
+        //   type: "ADD_ELEMENT",
+        //   payload: {
+        //     containerId: id,
+        //     elementDetails: {
+        //       content: { innerText: "Text Component" },
+        //       id: v4(),
+        //       name: "Text",
+        //       styles: {
+        //         color: "black",
+        //         ...defaultStyles,
+        //       },
+        //       type: "text",
+        //     },
+        //   },
+        // });
         break;
       case "container":
-        dispatch({
-          type: "ADD_ELEMENT",
-          payload: {
+        dispatch(
+          addElement({
             containerId: id,
             elementDetails: {
               content: [],
@@ -51,13 +69,25 @@ const TwoColumns = (props: Props) => {
               styles: { ...defaultStyles },
               type: "container",
             },
-          },
-        });
+          })
+        );
+        // dispatch({
+        //   type: "ADD_ELEMENT",
+        //   payload: {
+        //     containerId: id,
+        //     elementDetails: {
+        //       content: [],
+        //       id: v4(),
+        //       name: "Container",
+        //       styles: { ...defaultStyles },
+        //       type: "container",
+        //     },
+        //   },
+        // });
         break;
       case "2Col":
-        dispatch({
-          type: "ADD_ELEMENT",
-          payload: {
+        dispatch(
+          addElement({
             containerId: id,
             elementDetails: {
               content: [
@@ -81,8 +111,36 @@ const TwoColumns = (props: Props) => {
               styles: { ...defaultStyles, display: "flex" },
               type: "2Col",
             },
-          },
-        });
+          })
+        );
+        // dispatch({
+        //   type: "ADD_ELEMENT",
+        //   payload: {
+        //     containerId: id,
+        //     elementDetails: {
+        //       content: [
+        //         {
+        //           content: [],
+        //           id: v4(),
+        //           name: "Container",
+        //           styles: { ...defaultStyles, width: "100%" },
+        //           type: "container",
+        //         },
+        //         {
+        //           content: [],
+        //           id: v4(),
+        //           name: "Container",
+        //           styles: { ...defaultStyles, width: "100%" },
+        //           type: "container",
+        //         },
+        //       ],
+        //       id: v4(),
+        //       name: "Two Columns",
+        //       styles: { ...defaultStyles, display: "flex" },
+        //       type: "2Col",
+        //     },
+        //   },
+        // });
         break;
     }
   };
@@ -99,12 +157,17 @@ const TwoColumns = (props: Props) => {
 
   const handleOnClickBody = (e: React.MouseEvent) => {
     e.stopPropagation();
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
+    dispatch(
+      changeClickedElement({
         elementDetails: props.element,
-      },
-    });
+      })
+    );
+    // dispatch({
+    //   type: "CHANGE_CLICKED_ELEMENT",
+    //   payload: {
+    //     elementDetails: props.element,
+    //   },
+    // });
   };
 
   return (
@@ -137,7 +200,7 @@ const TwoColumns = (props: Props) => {
         )}
       {Array.isArray(content) &&
         content.map((childElement) => (
-          <RecursiveElement key={childElement.id} element={childElement} />
+          <RecursiveElement key={childElement?.id} element={childElement} />
         ))}
     </div>
   );

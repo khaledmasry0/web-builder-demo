@@ -6,30 +6,41 @@ import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import { EditorElement, useEditor } from "../../../redux/editor-provider";
 import { EditorBtns } from "../../../lib/constants";
+import {
+  changeClickedElement,
+  deleteElement,
+  updateElement,
+} from "../../../state/Slice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 type Props = {
   element: EditorElement;
 };
 
 const TextComponent = ({ element }: Props) => {
-  const { dispatch, state } = useEditor();
-
+  // const { dispatch, state } = useEditor();
+  const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.editor);
   const handleDeleteElement = () => {
-    dispatch({
-      type: "DELETE_ELEMENT",
-      payload: { elementDetails: element },
-    });
+    dispatch(deleteElement({ elementDetails: element }));
+
+    // dispatch({
+    //   type: "DELETE_ELEMENT",
+    //   payload: { elementDetails: element },
+    // });
   };
   const styles = element.styles;
 
   const handleOnClickBody = (e: React.MouseEvent) => {
     e.stopPropagation();
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
-    });
+    dispatch(changeClickedElement({ elementDetails: element }));
+    // dispatch({
+    //   type: "CHANGE_CLICKED_ELEMENT",
+    //   payload: {
+    //     elementDetails: element,
+    //   },
+    // });
   };
 
   //WE ARE NOT ADDING DRAG DROP
@@ -50,15 +61,15 @@ const TextComponent = ({ element }: Props) => {
         "p-[2px] w-full m-[5px] relative text-[16px] transition-all",
         {
           "!border-blue-500 cursor-copy":
-            state.editor.selectedElement.id === element.id,
+            state.editor.selectedElement?.id === element.id,
 
-          "!border-solid": state.editor.selectedElement.id === element.id,
+          "!border-solid": state.editor.selectedElement?.id === element.id,
           "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
         }
       )}
       onClick={handleOnClickBody}
     >
-      {state.editor.selectedElement.id === element.id &&
+      {state.editor.selectedElement?.id === element.id &&
         !state.editor.liveMode && (
           <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg">
             {state.editor.selectedElement.name}
@@ -68,22 +79,32 @@ const TextComponent = ({ element }: Props) => {
         contentEditable={!state.editor.liveMode}
         onBlur={(e) => {
           const spanElement = e.target as HTMLSpanElement;
-          dispatch({
-            type: "UPDATE_ELEMENT",
-            payload: {
+          dispatch(
+            updateElement({
               elementDetails: {
                 ...element,
                 content: {
                   innerText: spanElement.innerText,
                 },
               },
-            },
-          });
+            })
+          );
+          // dispatch({
+          //   type: "UPDATE_ELEMENT",
+          //   payload: {
+          //     elementDetails: {
+          //       ...element,
+          //       content: {
+          //         innerText: spanElement.innerText,
+          //       },
+          //     },
+          //   },
+          // });
         }}
       >
         {!Array.isArray(element.content) && element.content.innerText}
       </span>
-      {state.editor.selectedElement.id === element.id &&
+      {state.editor.selectedElement?.id === element.id &&
         !state.editor.liveMode && (
           <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
             <Trash
