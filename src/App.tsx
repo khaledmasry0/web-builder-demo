@@ -4,16 +4,21 @@ import FunnelEditorNavigation from "./_components/funnel-editor-navigation";
 import FunnelEditor from "./_components/funnel-editor";
 import FunnelEditorSidebar from "./_components/funnel-editor-sidebar";
 import { useEffect } from "react";
-import { Provider } from "@radix-ui/react-tooltip";
+import { Provider, useDispatch } from "react-redux";
+import store from "./store";
+// import { loadData, setFunnelPageId } from "";
 import MainApp from "./MainApp";
-import store from './store/index'
+
 
 function App() {
+
+
   return (
-    <Provider store={store}>
-      <MainApp/>
-    </Provider>
+      <Provider store={store}>
+        <MainApp />
+        {/* </EditorProvider> */}
+      </Provider>
   );
 }
 
-export default App;
+export default App;
