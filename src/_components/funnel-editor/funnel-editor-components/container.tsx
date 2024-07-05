@@ -6,8 +6,13 @@ import React, { useState } from "react";
 import { v4 } from "uuid";
 import Recursive from "./recursive";
 import { Trash } from "lucide-react";
-import { EditorElement, useEditor } from "../../../redux/editor-provider";
-import { addElement, changeClickedElement, deleteElement } from "../../../state/Slice";
+// import { EditorElement, useEditor } from "../../../redux/editor-provider";
+import {
+  EditorElement,
+  addElement,
+  changeClickedElement,
+  deleteElement,
+} from "../../../state/Slice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
@@ -386,7 +391,7 @@ const Container = ({ element }: Props) => {
     // });
   };
   console.log(state.editor.liveMode);
-  
+
   return (
     <div
       style={{

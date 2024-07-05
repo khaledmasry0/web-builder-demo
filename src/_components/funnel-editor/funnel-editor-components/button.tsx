@@ -1,12 +1,16 @@
-"use client";
 import { Badge } from "../../../components/ui/badge";
 // import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
 import clsx from "clsx";
 import { Trash } from "lucide-react";
 import React from "react";
-import { EditorElement, useEditor } from "../../../redux/editor-provider";
+// import { EditorElement, useEditor } from "../../../redux/editor-provider";
 import { EditorBtns } from "../../../lib/constants";
-import { changeClickedElement, deleteElement, updateElement } from "../../../state/Slice";
+import {
+  EditorElement,
+  changeClickedElement,
+  deleteElement,
+  updateElement,
+} from "../../../state/Slice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
@@ -66,7 +70,8 @@ const ButtonComponent = (props: Props) => {
           "!border-blue-500 cursor-copy":
             state.editor.selectedElement?.id === props.element.id,
 
-          "!border-solid": state.editor.selectedElement?.id === props.element.id,
+          "!border-solid":
+            state.editor.selectedElement?.id === props.element.id,
           "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
         }
       )}

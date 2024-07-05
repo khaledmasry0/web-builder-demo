@@ -33,7 +33,7 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { Slider } from "../../../components/ui/slider";
-import { useEditor } from "../../../redux/editor-provider";
+// import { useEditor } from "../../../redux/editor-provider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { updateElement } from "../../../state/Slice";
@@ -389,7 +389,8 @@ const SettingsTab = (props: Props) => {
                 });
               }}
               defaultValue={[
-                typeof state.editor.selectedElement?.styles?.opacity === "number"
+                typeof state.editor.selectedElement?.styles?.opacity ===
+                "number"
                   ? state.editor.selectedElement?.styles?.opacity
                   : parseFloat(
                       (
@@ -410,7 +411,8 @@ const SettingsTab = (props: Props) => {
                   ? state.editor.selectedElement?.styles?.borderRadius
                   : parseFloat(
                       (
-                        state.editor.selectedElement?.styles?.borderRadius || "0"
+                        state.editor.selectedElement?.styles?.borderRadius ||
+                        "0"
                       ).replace("px", "")
                     ) || 0}
                 px
@@ -431,7 +433,8 @@ const SettingsTab = (props: Props) => {
                   ? state.editor.selectedElement?.styles?.borderRadius
                   : parseFloat(
                       (
-                        state.editor.selectedElement?.styles?.borderRadius || "0"
+                        state.editor.selectedElement?.styles?.borderRadius ||
+                        "0"
                       ).replace("%", "")
                     ) || 0,
               ]}

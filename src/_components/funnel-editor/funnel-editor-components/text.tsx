@@ -4,9 +4,10 @@ import { Badge } from "../../../components/ui/badge";
 import clsx from "clsx";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
-import { EditorElement, useEditor } from "../../../redux/editor-provider";
+// import { EditorElement, useEditor } from "../../../redux/editor-provider";
 import { EditorBtns } from "../../../lib/constants";
 import {
+  EditorElement,
   changeClickedElement,
   deleteElement,
   updateElement,

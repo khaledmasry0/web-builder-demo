@@ -6,16 +6,21 @@ import clsx from "clsx";
 import { EyeOff } from "lucide-react";
 import React, { useEffect } from "react";
 import Recursive from "./funnel-editor-components/recursive";
-import { useEditor } from "../../redux/editor-provider";
+// import { useEditor } from "../../redux/editor-provider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { changeClickedElement, loadData, toggleLiveMode, togglePreviewMode } from "../../state/Slice";
+import {
+  changeClickedElement,
+  loadData,
+  toggleLiveMode,
+  togglePreviewMode,
+} from "../../state/Slice";
 
 type Props = { funnelPageId: string; liveMode?: boolean };
 
 const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
   console.log(liveMode);
-  
+
   // const { dispatch, state } = useEditor();
   // console.log("=== state ===" , state);
   const dispatch = useDispatch();
@@ -56,7 +61,7 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
   }, [dispatch]);
 
   const handleClick = () => {
-    dispatch(changeClickedElement({}))
+    dispatch(changeClickedElement({}));
     // dispatch({
     //   type: "CHANGE_CLICKED_ELEMENT",
     //   payload: {},
@@ -64,18 +69,17 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
   };
 
   const handleUnpreview = () => {
-    dispatch(togglePreviewMode())
+    dispatch(togglePreviewMode());
     // dispatch({ type: "TOGGLE_PREVIEW_MODE" });
     // dispatch({ type: "TOGGLE_LIVE_MODE" });
-    dispatch(toggleLiveMode({value : false}))
+    dispatch(toggleLiveMode({ value: false }));
   };
   // console.log("===== state ===", state.editor.elements);
-// console.log("ttt   Of   ttttttttt" , state.editor.previewMode);
-// console.log("aaa  Of   aaaaa" ,  state.editor.liveMode);
-// console.log("----- liveMode ---" , liveMode);
+  // console.log("ttt   Of   ttttttttt" , state.editor.previewMode);
+  // console.log("aaa  Of   aaaaa" ,  state.editor.liveMode);
+  // console.log("----- liveMode ---" , liveMode);
 
-
-// state.editor.previewMode && state.editor.liveMode
+  // state.editor.previewMode && state.editor.liveMode
 
   return (
     <div
@@ -91,7 +95,7 @@ const FunnelEditor = ({ funnelPageId, liveMode }: Props) => {
       )}
       onClick={handleClick}
     >
-      {state.editor.previewMode &&  (
+      {state.editor.previewMode && (
         <Button
           variant={"ghost"}
           size={"icon"}

@@ -8,14 +8,24 @@ import { Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import React, { useRef } from "react";
-import { EditorElement, useEditor } from "../../../redux/editor-provider";
+import {
+  EditorElement,
+  changeClickedElement,
+  deleteElement,
+} from "../../../state/Slice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+// import { EditorElement, useEditor } from "../../../redux/editor-provider";
 
 type Props = {
   element: EditorElement;
 };
 
 const LinkComponent = (props: Props) => {
-  const { dispatch, state } = useEditor();
+  const state = useSelector((state: RootState) => state.editor);
+
+  // const { state } = useEditor();
+  const dispatch = useDispatch();
 
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
     e.stopPropagation();
@@ -26,21 +36,23 @@ const LinkComponent = (props: Props) => {
 
   const handleOnClickBody = (e: React.MouseEvent) => {
     e.stopPropagation();
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: props.element,
-      },
-    });
+    // dispatch({
+    //   type: "CHANGE_CLICKED_ELEMENT",
+    //   payload: {
+    //     elementDetails: props.element,
+    //   },
+    // });
+    dispatch(changeClickedElement({ elementDetails: props.element }));
   };
 
   const styles = props.element.styles;
 
   const handleDeleteElement = () => {
-    dispatch({
-      type: "DELETE_ELEMENT",
-      payload: { elementDetails: props.element },
-    });
+    // dispatch({
+    //   type: "DELETE_ELEMENT",
+    //   payload: { elementDetails: props.element },
+    // });
+    dispatch(deleteElement({ elementDetails: props.element }));
   };
 
   return (

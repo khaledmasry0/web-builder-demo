@@ -7,8 +7,12 @@ import { v4 } from "uuid";
 import clsx from "clsx";
 import { Badge } from "../../../components/ui/badge";
 import { EditorBtns, defaultStyles } from "../../../lib/constants";
-import { EditorElement, useEditor } from "../../../redux/editor-provider";
-import { addElement, changeClickedElement } from "../../../state/Slice";
+// import { EditorElement, useEditor } from "../../../redux/editor-provider";
+import {
+  EditorElement,
+  addElement,
+  changeClickedElement,
+} from "../../../state/Slice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 

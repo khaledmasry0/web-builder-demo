@@ -31,11 +31,11 @@ import {
 // import { useRouter } from 'next/navigation'
 import React, { FocusEventHandler, useEffect, useState } from "react";
 import { toast } from "sonner";
-import {
-  DeviceTypes,
-  EditorElement,
-  useEditor,
-} from "../redux/editor-provider";
+// import {
+//   DeviceTypes,
+//   EditorElement,
+//   useEditor,
+// } from "../redux/editor-provider";
 // import { useNavigation } from "react-router";
 // import { Link } from "react-router-dom";
 // import grapesjs from 'grapesjs';
@@ -45,7 +45,14 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import beautify from "js-beautify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { changeDevice, redo, toggleLiveMode, togglePreviewMode, undo } from "../state/Slice";
+import {
+  DeviceTypes,
+  changeDevice,
+  redo,
+  toggleLiveMode,
+  togglePreviewMode,
+  undo,
+} from "../state/Slice";
 
 type Props = {
   funnelId: string;
@@ -104,17 +111,17 @@ const FunnelEditorNavigation = ({
     // dispatch({ type: "TOGGLE_PREVIEW_MODE" });
     // dispatch({ type: "TOGGLE_LIVE_MODE" });
     console.log("mohamed");
-    
-    dispatch(toggleLiveMode({value : true}));
+
+    dispatch(toggleLiveMode({ value: true }));
   };
 
   const handleUndo = () => {
-    dispatch(undo())
+    dispatch(undo());
     // dispatch({ type: "UNDO" });
   };
 
   const handleRedo = () => {
-    dispatch(redo())
+    dispatch(redo());
     // dispatch({ type: "REDO" });
   };
 
@@ -204,7 +211,7 @@ const FunnelEditorNavigation = ({
             className="w-fit"
             value={state.editor.device}
             onValueChange={(value) => {
-              dispatch(changeDevice({ device: value as DeviceTypes }))
+              dispatch(changeDevice({ device: value as DeviceTypes }));
               // dispatch({
               //   type: "CHANGE_DEVICE",
               //   payload: { device: value as DeviceTypes },

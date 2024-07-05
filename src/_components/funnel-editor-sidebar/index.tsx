@@ -14,7 +14,7 @@ import TabList from "./tabs/index";
 import SettingsTab from "./tabs/settings-tab";
 import MediaBucketTab from "./tabs/media-bucket-tab";
 import ComponentsTab from "./tabs/components-tab/index";
-import { useEditor } from "../../redux/editor-provider";
+// import { useEditor } from "../../redux/editor-provider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 
